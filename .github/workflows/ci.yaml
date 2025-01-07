@@ -1,0 +1,32 @@
+name: PHPUnit Tests 🧪
+
+on:
+  push:
+    branches:
+      - "*"
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: /tmp/composer-cache
+          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          tools: composer
+          php-version: "8.2"
+      - name: Install dependencies
+        run: composer install --no-progress --no-suggest
+      - name: Run tests
+        run: vendor/bin/phpunit --testdox --colors=always
