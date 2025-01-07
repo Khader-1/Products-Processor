@@ -14,11 +14,7 @@ class ConfigServiceProviderTest extends TestCase
     {
         $app = new Application;
         $provider = new ConfigServiceProvider;
-
-        // Register the provider
         $provider->register($app);
-
-        // Resolve the Config instance
         $config = $app->get(Config::class);
 
         $this->assertInstanceOf(ConfigLoader::class, $config);

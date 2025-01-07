@@ -1,3 +1,5 @@
 /vendor/
 .DS_Store
 .phpunit.result.cache
+combination_count.csv
+

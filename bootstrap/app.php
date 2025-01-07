@@ -9,6 +9,7 @@ $app = new Application;
 $app->registerProviders([
     Support\Providers\ConfigServiceProvider::class,
     App\Providers\AppServiceProvider::class,
+    App\Providers\ParserServiceProvider::class,
 ]);
 
 $app->bootProviders();

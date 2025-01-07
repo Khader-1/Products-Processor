@@ -2,10 +2,13 @@
 
 namespace App\Commands;
 
+use App\Repositories\ProductRepository;
 use Support\Contracts\Command;
 
 class ParseCommand extends Command
 {
+    public function __construct(protected ProductRepository $productRepository) {}
+
     public function getName(): string
     {
         return 'parse';
@@ -22,13 +25,11 @@ class ParseCommand extends Command
         $output = $options['unique-combinations'] ?? './unique-combinations.csv';
 
         if (! $file) {
-            echo "Error: The --file option is required.\n";
-            exit(1);
+            throw new \RuntimeException('Error: The --file option is required.');
         }
 
         if (! file_exists($file)) {
-            echo "Error: File not found: $file\n";
-            exit(1);
+            throw new \RuntimeException("Error: File not found: $file");
         }
 
         $this->processFile($file, $output);
@@ -38,11 +39,8 @@ class ParseCommand extends Command
 
     protected function processFile(string $filePath, string $outputPath): void
     {
-        // Process the file line by line
-        $file = fopen($filePath, 'r');
-        // TODO: Implement logic to find unique combinations
-
-        fclose($file);
-        // TODO: Implement logic to find unique combinations
+        $this->productRepository->setSourceFile($filePath);
+        $this->productRepository->setConsumerFile($outputPath);
+        $this->productRepository->generateCombinations();
     }
 }
