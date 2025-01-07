@@ -1,8 +1,8 @@
 <?php
 
-use Support\Contracts\Config;
+use App\Commands\ParseCommand;
 
 $app = require __DIR__.'/bootstrap/app.php';
-$config = $app->get(Config::class);
+$command = $app->get(ParseCommand::class);
 
-echo $config->get('app.name').PHP_EOL;
+$command->run(array_slice($argv, 1));
